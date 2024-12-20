@@ -2,6 +2,7 @@ package com.coroutines.thisdayinhistory.di
 
 import com.coroutines.api.translation.TranslationApiService
 import com.coroutines.api.wiki.WikiMediaApiService
+import com.coroutines.api.interceptors.CacheInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,9 +29,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideWikiMediaApiService(): WikiMediaApiService {
+        val cacheInterceptor = CacheInterceptor()
        // val interceptor = HttpLoggingInterceptor()
        // interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client: OkHttpClient = OkHttpClient.Builder()
+            .addInterceptor(cacheInterceptor)
           //  .addInterceptor(interceptor)
            // .addNetworkInterceptor(interceptor)
             .build()
